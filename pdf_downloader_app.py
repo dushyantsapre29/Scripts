@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QVBoxLayout, QFileDialog, QLineEdit, QMessageBox, QListWidget, QAbstractItemView, QListWidgetItem
 from PyQt6.QtCore import Qt
 
@@ -112,7 +113,9 @@ class PDFDownloader(QWidget):
             try:
                 response = requests.get(link, allow_redirects=True)
                 
-                with open(text,"wb") as file:
+                download_path = os.path.join(folder, text)
+
+                with open(download_path,"wb") as file:
                     print(f'Downloading {text} from {link}...')
                     file.write(response.content)
 
@@ -123,16 +126,11 @@ class PDFDownloader(QWidget):
 
 
 # creating an application object here
-# app = QApplication(sys.argv)
 app = QApplication([])
 
 # creating a window object here
 window = PDFDownloader()
 window.setWindowTitle("PDF Downloader")
-
-# creating label here TODO what does a label do
-# label = QLabel("what's the purpose of this?")
-# label.setParent(window)
 
 window.show()
 app.exec()
